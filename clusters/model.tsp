@@ -12,7 +12,7 @@ model ClusterBase extends APIResource{
    * CLM doesn't know how to unmarshall the spec, it only stores and forwards to adapters to do their job
    * But CLM will validate the schema before accepting the request
    */
-  spec: Record<unknown>;
+  spec: ClusterSpec;
 }
 model Cluster {
   ...ClusterBase;

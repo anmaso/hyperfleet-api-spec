@@ -623,8 +623,8 @@ components:
           type: string
           description: Cluster name (unique)
         spec:
-          type: object
-          additionalProperties: {}
+          allOf:
+            - $ref: '#/components/schemas/GCPClusterSpec'
           description: |-
             Cluster specification
             CLM doesn't know how to unmarshall the spec, it only stores and forwards to adapters to do their job
@@ -722,8 +722,8 @@ components:
           type: string
           description: Cluster name (unique)
         spec:
-          type: object
-          additionalProperties: {}
+          allOf:
+            - $ref: '#/components/schemas/GCPClusterSpec'
           description: |-
             Cluster specification
             CLM doesn't know how to unmarshall the spec, it only stores and forwards to adapters to do their job
@@ -870,6 +870,16 @@ components:
         reason:
           type: string
         operation_id:
+          type: string
+    GCPClusterSpec:
+      type: object
+      required:
+        - gcpProperty1
+        - gcpProperty2
+      properties:
+        gcpProperty1:
+          type: string
+        gcpProperty2:
           type: string
     List:
       type: object

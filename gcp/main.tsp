@@ -2,11 +2,11 @@ import "@typespec/http";
 import "@typespec/openapi";
 import "@typespec/openapi3";
 
-import "./clusters/core/model.tsp";
-import "./clusters/";
-import "./statuses/";
-import "./nodepools/";
-import "./compatibility/";
+import "../clusters/gcp/model.tsp";
+import "../clusters/";
+import "../statuses/";
+import "../nodepools/";
+import "../compatibility/";
 using Http;
 using OpenAPI;
 
