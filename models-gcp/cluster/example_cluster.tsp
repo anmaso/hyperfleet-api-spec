@@ -37,7 +37,7 @@ const exampleCluster: Cluster = #{
     phase: "Ready",
     last_transition_time: "2021-01-01T00:00:00Z",
     observed_generation: 1,
-    updated_at: "2021-01-01T00:00:00Z",
+    last_updated_time: "2021-01-01T00:00:00Z",
     adapters: #[
       #{
         adapter: "validator",
@@ -47,7 +47,7 @@ const exampleCluster: Cluster = #{
         message: "All 30 validation tests passed",
         observed_generation: 1,
         created_at: "2021-01-01T00:00:00Z",
-        updated_at: "2021-01-01T00:00:00Z",
+        last_updated_time: "2021-01-01T00:00:00Z",
       },
       #{
         adapter: "dns",
@@ -57,7 +57,7 @@ const exampleCluster: Cluster = #{
         message: "custom.domain.com created",
         observed_generation: 1,
         created_at: "2021-01-01T00:00:00Z",
-        updated_at: "2021-01-01T00:00:00Z",
+        last_updated_time: "2021-01-01T00:00:00Z",
       }
     ],
   },

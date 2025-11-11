@@ -519,7 +519,7 @@ components:
             message: All 30 validation tests passed
             observed_generation: 1
             created_at: '2021-01-01T00:00:00Z'
-            updated_at: '2021-01-01T00:00:00Z'
+            last_updated_time: '2021-01-01T00:00:00Z'
           - adapter: validator
             type: Applied
             status: 'True'
@@ -527,7 +527,7 @@ components:
             message: Validation job applied successfully
             observed_generation: 1
             created_at: '2021-01-01T00:00:00Z'
-            updated_at: '2021-01-01T00:00:00Z'
+            last_updated_time: '2021-01-01T00:00:00Z'
           - adapter: validator
             type: Health
             status: 'True'
@@ -535,7 +535,7 @@ components:
             message: Validation job is healthy
             observed_generation: 1
             created_at: '2021-01-01T00:00:00Z'
-            updated_at: '2021-01-01T00:00:00Z'
+            last_updated_time: '2021-01-01T00:00:00Z'
         data:
           providerProperty1: providerValue1
           providerProperty2: providerValue2
@@ -638,7 +638,7 @@ components:
           phase: Ready
           last_transition_time: '2021-01-01T00:00:00Z'
           observed_generation: 1
-          updated_at: '2021-01-01T00:00:00Z'
+          last_updated_time: '2021-01-01T00:00:00Z'
           adapters:
             - adapter: validator
               type: Available
@@ -647,7 +647,7 @@ components:
               message: All 30 validation tests passed
               observed_generation: 1
               created_at: '2021-01-01T00:00:00Z'
-              updated_at: '2021-01-01T00:00:00Z'
+              last_updated_time: '2021-01-01T00:00:00Z'
             - adapter: dns
               type: Available
               status: 'True'
@@ -655,7 +655,7 @@ components:
               message: custom.domain.com created
               observed_generation: 1
               created_at: '2021-01-01T00:00:00Z'
-              updated_at: '2021-01-01T00:00:00Z'
+              last_updated_time: '2021-01-01T00:00:00Z'
         created_by: user-123@example.com
         updated_by: user-123@example.com
     ClusterBase:
@@ -737,7 +737,7 @@ components:
         - phase
         - last_transition_time
         - observed_generation
-        - updated_at
+        - last_updated_time
         - adapters
       properties:
         phase:
@@ -764,13 +764,13 @@ components:
             Updated when adapters report status.
             This will be the lowest value of each adapter's observed_generation values
             The phase value is based on this generation
-        updated_at:
+        last_updated_time:
           type: string
           format: date-time
           description: |-
             Time of the last complete report from adapters
             Updated when adapters report status.
-            Oldest `updated_at` from the adapter conditions
+            Oldest `last_updated_time` from the adapter conditions
         adapters:
           type: array
           items:
@@ -790,7 +790,7 @@ components:
         - status
         - observed_generation
         - created_at
-        - updated_at
+        - last_updated_time
       properties:
         adapter:
           type: string
@@ -820,7 +820,7 @@ components:
             Time when the condition was created
             - In an adapter reporting conditions `updated_at==created_at`
             - In the API, `created_at` doesn't change with new updates from adapters
-        updated_at:
+        last_updated_time:
           type: string
           format: date-time
           description: Time when the condition was updated
@@ -850,7 +850,7 @@ components:
         - status
         - observed_generation
         - created_at
-        - updated_at
+        - last_updated_time
       properties:
         adapter:
           type: string
@@ -880,7 +880,7 @@ components:
             Time when the condition was created
             - In an adapter reporting conditions `updated_at==created_at`
             - In the API, `created_at` doesn't change with new updates from adapters
-        updated_at:
+        last_updated_time:
           type: string
           format: date-time
           description: Time when the condition was updated
@@ -1150,7 +1150,7 @@ components:
         - phase
         - observed_generation
         - last_transition_time
-        - updated_at
+        - last_updated_time
         - adapters
       properties:
         phase:
@@ -1176,13 +1176,13 @@ components:
           type: string
           format: date-time
           description: When NodePool last transitioned (updated by adapters, used by Sentinel for backoff)
-        updated_at:
+        last_updated_time:
           type: string
           format: date-time
           description: |-
             Time of the last complete report from adapters
             Updated when adapters report status.
-            Oldest `updated_at` from the adapter conditions
+            Oldest `last_updated_time` from the adapter conditions
         adapters:
           type: array
           items:
