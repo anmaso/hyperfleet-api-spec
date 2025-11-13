@@ -41,7 +41,7 @@ model ConditionBase {
 
   /** Time when the condition was updated
    */
-  @format("date-time") updated_at: string;
+  @format("date-time") last_updated_time: string;
 }
 
 /** StatusAvailable is the status condition from an adapter that is used by CLM to compute the phase.

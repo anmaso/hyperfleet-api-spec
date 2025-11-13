@@ -52,9 +52,9 @@ model ClusterStatus {
 
   /** Time of the last complete report from adapters
    * Updated when adapters report status.
-   * Oldest `updated_at` from the adapter conditions
+   * Oldest `last_updated_time` from the adapter conditions
    */
-  @format("date-time") updated_at: string;
+  @format("date-time") last_updated_time: string;
 
   adapters: ConditionAvailable[];
 }
