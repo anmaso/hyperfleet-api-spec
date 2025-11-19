@@ -96,7 +96,7 @@ jobs:
               uses: peter-evans/create-pull-request@v6
               with:
                   token: ${{ secrets.GITHUB_TOKEN }}
-                  commit-message: chore: automated update by GitHub Actions (TypeSpec)
+                  commit-message: "chore: automated update by GitHub Actions (TypeSpec)"
                   branch: ${{ steps.branch.outputs.name }}
                   title: "Automated update (TypeSpec)"
                   body: "This PR was created by GitHub Actions after running the script with TypeSpec."
