@@ -70,6 +70,7 @@ jobs:
                   # Add any env vars your script needs here
                   TSP_OUTPUT_DIR: build/typespec
               run: |
+                  npm install
                   chmod +x ./build-schema.sh
                   ./build-schema.sh gcp
                   ./build/schema.sh core
