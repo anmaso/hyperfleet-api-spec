@@ -1,0 +1,103 @@
+name: Run script and update branch (with TypeSpec)
+
+on:
+    workflow_dispatch:
+        inputs:
+            target_branch:
+                description: Branch to update
+                required: true
+                default: automation/update
+    push:
+        branches:
+            - main
+
+permissions:
+    contents: write
+    pull-requests: write
+
+jobs:
+    run-and-update:
+        runs-on: ubuntu-latest
+
+        steps:
+            - name: Checkout repository
+              uses: actions/checkout@v4
+              with:
+                  fetch-depth: 0
+                  ref: ${{ github.ref_name }}
+
+            - name: Configure git author
+              run: |
+                  git config user.name "anmaso[bot]"
+                  git config user.email "anmaso.bot@gmail.com"
+
+            - name: Determine target branch
+              id: branch
+              run: |
+                  if [ -n "${{ github.event.inputs.target_branch }}" ]; then
+                      echo "name=${{ github.event.inputs.target_branch }}" >> "$GITHUB_OUTPUT"
+                  else
+                      echo "name=automation/update" >> "$GITHUB_OUTPUT"
+                  fi
+
+            - name: Create or switch to target branch
+              run: |
+                  TARGET="${{ steps.branch.outputs.name }}"
+                  if git ls-remote --exit-code --heads origin "$TARGET" >/dev/null 2>&1; then
+                      git checkout "$TARGET"
+                      git pull --ff-only origin "$TARGET"
+                  else
+                      git checkout -b "$TARGET"
+                  fi
+
+            - name: Set up Node.js
+              uses: actions/setup-node@v4
+              with:
+                  node-version: 20
+                  cache: npm
+
+            - name: Install TypeSpec compiler (tsp)
+              run: |
+                  npm install -g @typespec/compiler
+                  tsp --version
+
+            # If your repo uses local TypeSpec packages/plugins, install them too
+            # - name: Install repo dependencies
+            #   run: npm ci
+
+            - name: Run repository script (uses tsp)
+              env:
+                  # Add any env vars your script needs here
+                  TSP_OUTPUT_DIR: build/typespec
+              run: |
+                  chmod +x ./scripts/build-schema.sh
+                  ./build-schema.sh gcp
+                  ./build/schema.sh core
+
+            - name: Commit changes if any
+              id: commit
+              run: |
+                  if [ -n "$(git status --porcelain)" ]; then
+                      git add -A
+                      git commit -m "chore: automated update by GitHub Actions (TypeSpec)"
+                      echo "changes=true" >> "$GITHUB_OUTPUT"
+                  else
+                      echo "No changes to commit"
+                      echo "changes=false" >> "$GITHUB_OUTPUT"
+
+            - name: Push changes
+              if: steps.commit.outputs.changes == 'true'
+              run: |
+                  TARGET="${{ steps.branch.outputs.name }}"
+                  git push origin "HEAD:$TARGET"
+
+            - name: Create or update pull request
+              if: steps.commit.outputs.changes == 'true'
+              uses: peter-evans/create-pull-request@v6
+              with:
+                  token: ${{ secrets.GITHUB_TOKEN }}
+                  commit-message: chore: automated update by GitHub Actions (TypeSpec)
+                  branch: ${{ steps.branch.outputs.name }}
+                  title: "Automated update (TypeSpec)"
+                  body: "This PR was created by GitHub Actions after running the script with TypeSpec."
+                  base: main
